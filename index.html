@@ -7,12 +7,12 @@
   <title>aubrika</title>
   <style>
     :root { color-scheme: dark; }
-    html, body { height: 100%; margin: 0; background: #1e1e1e; }
+    html, body { height: 100%; margin: 0; background: #001418; }
     body {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #b7410e;
+      color: #6c706c;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     main {
@@ -20,10 +20,70 @@
       letter-spacing: 0.18em;
       font-weight: 700;
       font-size: clamp(1.5rem, 6vw, 4rem);
+      /* Base fill = the resting gray. A click paints a traveling color band
+         over the glyphs via background-clip:text; where the gradient is
+         transparent, this base shows through. */
+      color: #6c706c;
+      -webkit-text-fill-color: #6c706c;
+      -webkit-background-clip: text;
+      background-clip: text;
+      background-image: none;
+      cursor: default;
     }
   </style>
 </head>
 <body>
   <main>Under Construction</main>
+  <script>
+    (function () {
+      var main = document.querySelector('main');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+
+      var waves = [];
+      var raf = null;
+      var DUR = 950;   // wave lifetime, ms
+      var BW = 90;     // band half-width, px (the feather on each side of the crest)
+
+      function onDown(e) {
+        var rect = main.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        // Reach = distance to the farthest corner, so the crest fully clears
+        // the text no matter where the click lands (even outside it).
+        var corners = [[0, 0], [rect.width, 0], [0, rect.height], [rect.width, rect.height]];
+        var max = 0;
+        for (var i = 0; i < corners.length; i++) {
+          var d = Math.hypot(corners[i][0] - x, corners[i][1] - y);
+          if (d > max) max = d;
+        }
+        waves.push({ x: x, y: y, t0: performance.now(), reach: max });
+        if (!raf) raf = requestAnimationFrame(frame);
+      }
+
+      function frame(now) {
+        var layers = [];
+        for (var i = waves.length - 1; i >= 0; i--) {
+          var w = waves[i];
+          var p = (now - w.t0) / DUR;
+          if (p >= 1) { waves.splice(i, 1); continue; }
+          var r = p * (w.reach + BW * 2);        // crest radius travels outward
+          var fade = 1 - p * p;                   // dims as it expands
+          var hue = 172 - p * 132;                // teal-green -> warm amber across its life
+          var c = 'hsla(' + hue.toFixed(0) + ', 78%, 62%, ' + (0.9 * fade).toFixed(3) + ')';
+          layers.push(
+            'radial-gradient(circle at ' + w.x.toFixed(1) + 'px ' + w.y.toFixed(1) + 'px,' +
+            ' transparent ' + Math.max(0, r - BW).toFixed(1) + 'px,' +
+            ' ' + c + ' ' + r.toFixed(1) + 'px,' +
+            ' transparent ' + (r + BW).toFixed(1) + 'px)'
+          );
+        }
+        main.style.backgroundImage = layers.length ? layers.join(',') : 'none';
+        raf = waves.length ? requestAnimationFrame(frame) : null;
+      }
+
+      window.addEventListener('pointerdown', onDown);
+    })();
+  </script>
 </body>
 </html>
