@@ -42,8 +42,8 @@
 
       var waves = [];
       var raf = null;
-      var DUR = 950;   // wave lifetime, ms
-      var BW = 90;     // band half-width, px (the feather on each side of the crest)
+      var DUR = 1150;  // wave lifetime, ms
+      var BW = 140;    // band half-width, px (the feather on each side of the crest)
 
       function onDown(e) {
         var rect = main.getBoundingClientRect();
@@ -68,13 +68,18 @@
           var p = (now - w.t0) / DUR;
           if (p >= 1) { waves.splice(i, 1); continue; }
           var r = p * (w.reach + BW * 2);        // crest radius travels outward
-          var fade = 1 - p * p;                   // dims as it expands
-          var hue = 172 - p * 132;                // teal-green -> warm amber across its life
-          var c = 'hsla(' + hue.toFixed(0) + ', 78%, 62%, ' + (0.9 * fade).toFixed(3) + ')';
+          var fade = 1 - p;                       // lingers, then clears near the end
+          var a1 = (0.9 * fade).toFixed(3);       // lilac halo alpha
+          var a2 = (0.98 * fade).toFixed(3);      // deep-purple core alpha
+          var cx = w.x.toFixed(1), cy = w.y.toFixed(1);
+          // Band is its own gradient: bright lilac halo -> #443444 core -> lilac halo,
+          // so the wave carries color and reads as clear motion through the glyphs.
           layers.push(
-            'radial-gradient(circle at ' + w.x.toFixed(1) + 'px ' + w.y.toFixed(1) + 'px,' +
+            'radial-gradient(circle at ' + cx + 'px ' + cy + 'px,' +
             ' transparent ' + Math.max(0, r - BW).toFixed(1) + 'px,' +
-            ' ' + c + ' ' + r.toFixed(1) + 'px,' +
+            ' rgba(158,104,196,' + a1 + ') ' + Math.max(0, r - BW * 0.5).toFixed(1) + 'px,' +
+            ' rgba(68,52,68,' + a2 + ') ' + r.toFixed(1) + 'px,' +
+            ' rgba(205,150,224,' + a1 + ') ' + (r + BW * 0.5).toFixed(1) + 'px,' +
             ' transparent ' + (r + BW).toFixed(1) + 'px)'
           );
         }
