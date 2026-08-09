@@ -1,0 +1,99 @@
+:root {
+  color-scheme: dark;
+  --bg: #001418;
+  --ink: #6c706c;
+}
+
+html, body { height: 100%; margin: 0; background: var(--bg); }
+
+body {
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  min-height: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Left navigation pane */
+.sidebar {
+  flex: 0 0 auto;
+  width: 220px;
+  box-sizing: border-box;
+  padding: 2.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+.brand {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav a {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 0.78rem;
+  opacity: 0.68;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.nav a:hover { opacity: 1; }
+
+.nav a.active {
+  opacity: 1;
+  color: #9c6d80;   /* a muted mauve, same family as the pulse-wave */
+}
+
+/* Main content */
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Big heading that the click pulse-wave sweeps through. The glyph fill is
+   transparent; all color comes from the clipped background (bottom layer is
+   the resting gray, wave bands stack on top). */
+.hero {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(var(--ink), var(--ink));
+}
+
+@media (max-width: 640px) {
+  body { flex-direction: column; }
+  .sidebar {
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 1rem 1.75rem;
+    padding: 1.5rem;
+  }
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+  }
+  .content { padding: 3rem 1.5rem; }
+}
