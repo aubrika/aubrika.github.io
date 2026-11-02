@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block color_scheme %}dark light{% endblock color_scheme %}
+{% block title %}{{ page.title }} — {{ config.title }}{% endblock title %}
+{% block head %}
+{% set description = page.description | default(value=config.description) %}
+{%- include "blog-head.html" %}
+{%- endblock head %}
+{% block main_class %}content reading{% endblock main_class %}
+{% block content %}
+    <article class="post">
+      <header>
+        <h1 class="title">{{ page.title }}</h1>
+        <time datetime="{{ page.date }}">{{ page.date | date(format="%B %-d, %Y") }}</time>
+      </header>
+      <div class="prose">
+{{ page.content | safe }}
+      </div>
+    </article>
+    <p class="back"><a href="/blog/">← All posts</a></p>
+{% endblock content %}

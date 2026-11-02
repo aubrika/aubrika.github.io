@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="{{ config.default_language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="{% block color_scheme %}dark{% endblock color_scheme %}">
+  <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+  <link rel="stylesheet" href="/style.css">
+{%- block head %}{% endblock head %}
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/">{{ config.title }}</a>
+    <nav class="nav">
+{#- The nav link for the top-level section of the current URL is active:
+    /blog/ and every /blog/<slug>/ light up "Blog". #}
+{%- set here = current_path | default(value="/") %}
+{%- set top = here | split(pat="/") | nth(n=1) %}
+{%- for slug in ["about", "blog", "projects", "contact"] %}
+      <a href="/{{ slug }}/"
+        {%- if top == slug %} class="active" aria-current="{% if here == '/' ~ slug ~ '/' %}page{% else %}true{% endif %}"{% endif -%}
+      >{{ slug | capitalize }}</a>
+{%- endfor %}
+    </nav>
+  </aside>
+  <main class="{% block main_class %}content{% endblock main_class %}">
+{% block content %}{% endblock content %}
+  </main>
+  <script src="/wave.js"></script>
+</body>
+</html>

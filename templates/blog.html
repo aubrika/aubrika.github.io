@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block color_scheme %}dark light{% endblock color_scheme %}
+{% block title %}{{ section.title }} — {{ config.title }}{% endblock title %}
+{% block head %}
+{% set description = section.description | default(value=config.description) %}
+{%- include "blog-head.html" %}
+{%- endblock head %}
+{% block main_class %}content reading{% endblock main_class %}
+{% block content %}
+    <header class="listing-head">
+      <h1 class="title">{{ section.title }}</h1>
+      <a class="feed" href="{{ get_url(path='blog/atom.xml', trailing_slash=false) }}">Atom feed</a>
+    </header>
+    <ul class="posts">
+{%- for page in section.pages %}
+      <li>
+        <a class="post-link" href="{{ page.path }}">{{ page.title }}</a>
+        <time datetime="{{ page.date }}">{{ page.date | date(format="%B %-d, %Y") }}</time>
+        {%- if page.description %}
+        <p>{{ page.description }}</p>
+        {%- endif %}
+      </li>
+{%- endfor %}
+    </ul>
+{% endblock content %}
