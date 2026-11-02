@@ -3,31 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="{% block color_scheme %}dark{% endblock color_scheme %}">
+  <meta name="color-scheme" content="dark">
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
-  <link rel="stylesheet" href="/style.css">
-{% block head %}{% endblock head -%}
+  <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+  <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='blog/atom.xml', trailing_slash=false) }}">
 </head>
 <body>
-  <aside class="sidebar">
-    <a class="brand" href="/">{{ config.title }}</a>
-    <nav class="nav">
-{#- The link for the top-level section of the current URL is active, so /blog/
-    and every /blog/<slug>/ light up "Blog". It is the current page only on the
-    section's own URL. #}
-{%- set here = current_path | default(value="/") %}
-{%- set top = here | split(pat="/") | nth(n=1) %}
-{%- for slug in ["about", "blog", "projects", "contact"] %}
-{%- set url = "/" ~ slug ~ "/" %}
-      <a href="{{ url | safe }}"
-        {%- if top == slug %} class="active" aria-current="{% if here == url %}page{% else %}true{% endif %}"{% endif -%}
-      >{{ slug | capitalize }}</a>
-{%- endfor %}
+  {%- set here = current_path | default(value="/") %}
+  <header class="site">
+    <a class="name" href="{{ get_url(path='/') }}"{% if here == "/" %} aria-current="page"{% endif %}>{{ config.title }}</a>
+    <nav>
+      <a href="{{ get_url(path='@/blog/_index.md') }}"
+        {%- if here == "/blog/" %} aria-current="page"{% elif here is starting_with("/blog/") %} aria-current="true"{% endif %}>Blog</a>
+      <a href="{{ config.extra.github | safe }}">GitHub</a>
+      <a href="{{ config.extra.bluesky | safe }}">Bluesky</a>
+      <a href="{{ get_url(path='blog/atom.xml', trailing_slash=false) }}">Feed</a>
     </nav>
-  </aside>
-  <main class="{% block main_class %}content{% endblock main_class %}">
-{% block content %}{% endblock content %}
+  </header>
+  <main>
+    {% block content %}{% endblock content %}
   </main>
-  <script src="/wave.js"></script>
 </body>
 </html>

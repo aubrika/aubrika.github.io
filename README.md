@@ -32,11 +32,10 @@ Pushing to `main` runs the workflow, which builds the site and deploys it to Pag
 
 ## Layout
 
-- `templates/base.html`: the sidebar layout shared by every page. The nav link for the current top-level section is marked active.
-- `templates/hero.html`: the landing page and the About, Projects and Contact pages; the hero text is `extra.hero` in each `content/<section>/_index.md`.
-- `templates/blog.html`, `templates/page.html`: the blog index and posts.
-- `static/style.css`: the site design (dark). `static/blog.css`: long-form reading, loaded only on blog pages, including the light color scheme.
-- `static/wave.js`: the click pulse-wave through the hero text.
+- `content/_index.md`: the home page intro. The home page also lists the five most recent posts.
+- `templates/base.html`: the header (site name; Blog, GitHub, Bluesky and Feed links) shared by every page. The GitHub and Bluesky addresses are in `config.toml` under `[extra]`.
+- `templates/index.html`, `blog.html`, `page.html`, `404.html`: the home page, the blog index, a post, and the not-found page.
+- `static/style.css`: the whole design. Dark only, in the site's teal-black palette; the contrast ratios are listed at the top of the file.
 
 ## Custom domain later
 

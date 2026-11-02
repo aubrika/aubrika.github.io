@@ -1,3 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Not Found — {{ config.title }}{% endblock title %}
-{% block content %}    <h1 class="hero">Not Found</h1>{% endblock content %}
+{% block title %}Page not found · {{ config.title }}{% endblock title %}
+{% block content %}
+<h1>Page not found</h1>
+<p>There’s nothing at this address. Try the <a href="{{ get_url(path='/') }}">home page</a> or the <a href="{{ get_url(path='@/blog/_index.md') }}">blog</a>.</p>
+{% endblock content %}
