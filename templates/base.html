@@ -6,19 +6,21 @@
   <meta name="color-scheme" content="{% block color_scheme %}dark{% endblock color_scheme %}">
   <title>{% block title %}{{ config.title }}{% endblock title %}</title>
   <link rel="stylesheet" href="/style.css">
-{%- block head %}{% endblock head %}
+{% block head %}{% endblock head -%}
 </head>
 <body>
   <aside class="sidebar">
     <a class="brand" href="/">{{ config.title }}</a>
     <nav class="nav">
-{#- The nav link for the top-level section of the current URL is active:
-    /blog/ and every /blog/<slug>/ light up "Blog". #}
+{#- The link for the top-level section of the current URL is active, so /blog/
+    and every /blog/<slug>/ light up "Blog". It is the current page only on the
+    section's own URL. #}
 {%- set here = current_path | default(value="/") %}
 {%- set top = here | split(pat="/") | nth(n=1) %}
 {%- for slug in ["about", "blog", "projects", "contact"] %}
-      <a href="/{{ slug }}/"
-        {%- if top == slug %} class="active" aria-current="{% if here == '/' ~ slug ~ '/' %}page{% else %}true{% endif %}"{% endif -%}
+{%- set url = "/" ~ slug ~ "/" %}
+      <a href="{{ url | safe }}"
+        {%- if top == slug %} class="active" aria-current="{% if here == url %}page{% else %}true{% endif %}"{% endif -%}
       >{{ slug | capitalize }}</a>
 {%- endfor %}
     </nav>
