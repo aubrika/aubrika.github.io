@@ -1,0 +1,18 @@
+base_url = "https://aubrika.github.io"
+title = "aubrika"
+description = "Writing on autonomic computing, Planarian, and other things."
+author = "Aubrey Dyer"
+default_language = "en"
+compile_sass = false
+build_search_index = false
+# Only the blog section publishes a feed (see content/blog/_index.md).
+generate_feeds = false
+feed_filenames = ["atom.xml"]
+
+[markdown]
+highlight_code = false
+smart_punctuation = true
+external_links_target_blank = false
+
+[extra]
+author = "Aubrey Dyer"

@@ -1,0 +1,215 @@
+/* Long-form reading: the blog index and posts. Loaded after style.css, only on
+   blog pages, so the landing page and the hero pages are untouched.
+
+   Dark is the default and keeps the site palette. The sidebar keeps --ink so it
+   matches every other page; the reading column gets lighter tones, because
+   --ink (#6c706c) on --bg is only 3.75:1. Ratios are against the page
+   background unless noted (WCAG 2 relative luminance).
+
+     --text     #c9cbc6  11.53:1   body text
+     --heading  #dcded9  13.92:1   titles and headings
+     --muted    #8b8f8a   5.74:1   dates, captions
+     --quote    #a3a7a1   7.72:1   blockquotes
+     --link     #b48a9b   6.33:1   links (mauve family, lightened from #9c6d80)
+     on --code-bg #06232a: text 10.02:1, link 5.50:1                          */
+:root {
+  color-scheme: dark light;
+  --text: #c9cbc6;
+  --heading: #dcded9;
+  --muted: #8b8f8a;
+  --quote: #a3a7a1;
+  --link: #b48a9b;
+  --link-hover: #dcded9;
+  --active: #9c6d80;
+  --rule: #1d3a40;
+  --code-bg: #06232a;
+  --serif: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* Light mode, blog pages only. A warm off-white with the same neutral and mauve
+   families.
+
+     --bg       #f6f3ee            background
+     --text     #1f201e  14.78:1   body text and headings
+     --ink      #5d615d   5.69:1   sidebar, dates, captions
+     --quote    #3c3f3c   9.64:1   blockquotes
+     --link     #7d4f62   5.99:1   links
+     --active   #85566a   5.36:1   active nav link
+     on --code-bg #ebe6de: text 13.17:1, link 5.34:1                          */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f3ee;
+    --ink: #5d615d;
+    --text: #1f201e;
+    --heading: #1f201e;
+    --muted: #5d615d;
+    --quote: #3c3f3c;
+    --link: #7d4f62;
+    --link-hover: #1f201e;
+    --active: #85566a;
+    --rule: #ddd6cb;
+    --code-bg: #ebe6de;
+  }
+  /* The dark sidebar dims nav links to 0.68 opacity; here that would drop them
+     to 2.9:1, so they stay at full strength and hover darkens instead. */
+  .nav a { opacity: 1; }
+  .nav a:hover { color: var(--text); }
+  .nav a.active { color: var(--active); }
+}
+
+/* The reading column: left-aligned to the right of the sidebar, not centered
+   like the heroes. */
+.content.reading {
+  display: block;
+  min-width: 0;
+  padding: 2.5rem 2rem 4rem;
+  color: var(--text);
+}
+
+.reading :focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.post,
+.listing-head,
+.posts,
+.back {
+  max-width: 41rem;
+}
+
+/* Titles use the site's uppercase, letter-spaced style. */
+.reading .title {
+  margin: 0;
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: clamp(1.3rem, 3.2vw, 1.75rem);
+  line-height: 1.35;
+  color: var(--heading);
+}
+
+.reading time {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.post > header { margin-bottom: 2.25rem; }
+.post > header time { margin-top: 0.6rem; }
+
+/* Article body */
+.prose {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+.prose > :first-child { margin-top: 0; }
+.prose p, .prose ul, .prose ol, .prose pre, .prose blockquote, .prose figure { margin: 0 0 1.15em; }
+
+.prose h2, .prose h3, .prose h4 {
+  font-family: var(--sans);
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--heading);
+  margin: 2.2em 0 0.6em;
+}
+.prose h2 { font-size: 1.3rem; }
+.prose h3 { font-size: 1.12rem; }
+.prose h4 { font-size: 1rem; }
+
+.reading a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color 0.15s ease;
+}
+.reading a:hover { color: var(--link-hover); }
+
+.prose blockquote {
+  padding: 0.1em 0 0.1em 1.1em;
+  border-left: 3px solid var(--rule);
+  color: var(--quote);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.5em 0;
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--code-bg);
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+}
+.prose pre {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+}
+.prose pre code { background: none; padding: 0; font-size: inherit; }
+
+.prose img { max-width: 100%; height: auto; }
+.prose figcaption { font-family: var(--sans); font-size: 0.9rem; color: var(--muted); }
+
+.back {
+  margin-top: 3rem;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+
+/* Blog index */
+.listing-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 2.25rem;
+}
+.listing-head .feed {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+.posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.posts li { margin: 0 0 2rem; }
+.posts .post-link {
+  font-family: var(--sans);
+  font-size: 1.15rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-decoration: none;
+}
+.posts .post-link:hover { text-decoration: underline; }
+.posts time { margin: 0.3rem 0 0.4rem; }
+.posts p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 640px) {
+  .content.reading { padding: 1rem 1.5rem 3rem; }
+  .prose { font-size: 1.0625rem; }
+}
