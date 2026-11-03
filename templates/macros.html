@@ -1,0 +1,6 @@
+{#- Site-wide date format: a five-digit year, then month and day, e.g.
+    02026.11.02. The datetime attribute stays ISO 8601 for machines. -#}
+{% macro date(d) -%}
+{%- set year = d | date(format="%Y") | int -%}
+<time datetime="{{ d }}">{% if year < 10000 %}0{% endif %}{{ d | date(format="%Y.%m.%d") }}</time>
+{%- endmacro date %}

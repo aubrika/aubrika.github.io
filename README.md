@@ -35,6 +35,7 @@ Pushing to `main` runs the workflow, which builds the site and deploys it to Pag
 - `content/_index.md`: the home page intro. The home page also lists the five most recent posts.
 - `templates/base.html`: the header (site name; Blog, GitHub, Bluesky and Feed links) shared by every page. The GitHub and Bluesky addresses are in `config.toml` under `[extra]`.
 - `templates/index.html`, `blog.html`, `page.html`, `404.html`: the home page, the blog index, a post, and the not-found page.
+- `templates/macros.html`: the date format used everywhere a date is shown (five-digit year, e.g. `02026.11.02`).
 - `static/style.css`: the whole design. Dark only, in the site's teal-black palette; the contrast ratios are listed at the top of the file.
 
 ## Custom domain later
