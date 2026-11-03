@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 {% block title %}{{ page.title }} · {{ config.title }}{% endblock title %}
 {% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
 {% block content %}
 <article>
   <h1>{{ page.title }}</h1>
-  <time datetime="{{ page.date }}">{{ page.date | date(format="%B %-d, %Y") }}</time>
+  {{ macros::date(d=page.date) }}
   {{ page.content | safe }}
 </article>
 <p class="back"><a href="{{ get_url(path='@/blog/_index.md') }}">← All posts</a></p>
