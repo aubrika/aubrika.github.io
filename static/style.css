@@ -25,6 +25,8 @@ h1, h2, h3 { font-family: var(--sans); line-height: 1.25; font-weight: 600; }
 h1 { font-size: 1.9rem; margin: 0 0 0.25rem; }
 h2 { font-size: 1.3rem; margin: 2.25rem 0 0.5rem; }
 time { display: block; color: var(--muted); font-family: var(--sans); font-size: 0.9rem; margin-bottom: 1.75rem; }
+.post-meta { color: var(--muted); font-family: var(--sans); font-size: 0.9rem; margin-bottom: 1.75rem; }
+.post-meta time { margin-bottom: 0; }
 .list-heading { margin-top: 2.5rem; }
 .posts { list-style: none; padding: 0; }
 .posts li { margin: 0 0 1.5rem; }

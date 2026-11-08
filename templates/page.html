@@ -20,7 +20,10 @@
 {% block content %}
 <article>
   <h1>{{ page.title }}</h1>
-  {{ macros::date(d=page.date) }}
+  <div class="post-meta">
+    {{ macros::date(d=page.date) }}
+    <span class="reading-time">{{ page.reading_time }} min read</span>
+  </div>
   {{ page.content | safe }}
 </article>
 <p class="back"><a href="{{ get_url(path='@/blog/_index.md') }}">← All posts</a></p>
