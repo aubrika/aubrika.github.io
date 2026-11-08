@@ -1,5 +1,5 @@
 +++
-title = "On autonomic computing and Planarian"
+title = "on autonomic computing and planarian"
 date = 2026-11-02
 description = "Why I want computers that fix themselves, and how I’m building one with AI agents."
 +++
